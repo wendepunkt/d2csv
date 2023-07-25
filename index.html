@@ -44,10 +44,10 @@
                 <input name="key" type="password" id="key" placeholder="Enter API key" py-input="key_input_handler()">
             </div>
 
-            
+            <div id="corss">
                 <label for="cors-key">Enter CORS API key:</label>
                 <input name="cors-key" type="password" id="cors-key" placeholder="Enter API key" py-input="cors_key_input_handler()">
-            
+            </div>
                 
             <!--    
             <div class="upload-csv">
@@ -58,10 +58,12 @@
                 </div>
             </div>
             -->    
-            
-            <label for="input-text">Enter Query here (one word):</label>
-            <input name="queries" type="text" id="queries" placeholder="Enter query" py-input="query_input_handler()">
-            
+
+            <div id="quer">
+                <label for="input-text">Enter Query here (one word):</label>
+                <input name="queries" type="text" id="queries" placeholder="Enter query" py-input="query_input_handler()">
+            </div>
+                
             <div class="button-container">
                 <button py-click="runScript()" id="run-script" class="py-button">Run Script</button>
             </div>
