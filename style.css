@@ -1,0 +1,124 @@
+/* Reset default browser styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: GoodSansRegular, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.left-side, .right-side {
+    width: 100%;
+}
+
+.left-side h2, .right-side h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.left-side p {
+    margin-bottom: 20px;
+}
+
+.box {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#api-key, .upload-csv {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    margin-top: 10px;
+    justify-content: space-between
+}
+
+.py-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 12px;
+    background-color: #357ebd;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px
+}
+
+.secondary-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 12px;
+    color: buttontext;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px
+}
+
+.py-button:hover {
+    background-color: #0056b3;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.form label, .form input, .form select {
+    width: 100%;
+}
+
+#message {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.rectangle {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.rectangle h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.sheet {
+    margin-bottom: 10px;
+    width:100%
+    table-layout: fixed;
+    overflow-wrap: break-word;
+}
+
+#download {
+    margin-top: 10px;
+}
+
+/* Hide the password input value */
+#key[type="password"] {
+    -webkit-text-security: disc;
+    -moz-text-security: disc;
+    -ms-text-security: disc;
+    text-security: disc;
+}
+
+/* Move the result to the bottom */
+.rectangle {
+    order: 3;
+    margin-top: 40px;
+}

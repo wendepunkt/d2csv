@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>D2CSV</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+        
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.1.1.min.js"></script>        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@holoviz/panel@1.0.3/dist/bundled/material-components-web@7.0.0/dist/material-components-web.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.holoviz.org/panel/1.0.3/dist/panel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@holoviz/panel@1.0.3/dist/panel.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="stylesheet" href="./style.css" />
+    <script defer src="https://pyscript.net/releases/2023.03.1/pyscript.js"></script>
+    <py-config src="./pyscript.toml">
+        [[fetch]]
+        files = ["/style.css", "/coordinates.csv"]
+    </py-config>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="box left-side">
+            <div class="left-side">
+            <h2>Googlemaps Places API Lead Generation</h2>
+            <p>This script uses the Googlemaps Places API to find businesses matching a query. 
+                Please enter a CSV with a list of coordinates to search for below.</p>
+
+            <div id="api-key">
+                <label for="key">Enter Googlemaps Places API key:</label>
+                <input name="key" type="password" id="key" placeholder="Enter API key" py-input="key_input_handler()">
+            </div>
+
+            
+                <label for="cors-key">Enter CORS API key:</label>
+                <input name="cors-key" type="password" id="cors-key" placeholder="Enter API key" py-input="cors_key_input_handler()">
+            
+                
+            <!--    
+            <div class="upload-csv">
+                <label for="upload-csv">Upload CSV:</label>
+                <input type="file" id="upload-csv" accept=".csv">
+                <div class="button-container">
+                    <button onclick="processCSV()">Process CSV</button>
+                </div>
+            </div>
+            -->    
+            
+            <label for="input-text">Enter Query here (one word):</label>
+            <input name="queries" type="text" id="queries" placeholder="Enter query" py-input="query_input_handler()">
+            
+            <div class="button-container">
+                <button py-click="runScript()" id="run-script" class="py-button">Run Script</button>
+            </div>
+            
+            <div id="output"></div>
+            <p id="places"></p>
+        </div>
+        </div>
+
+        <div class="box right-side">
+            <div class="right-side">
+                <h2>Add business manually to CSV file</h2>
+                <form id="form" py-submit="submit_handler()" reset="reset_handler" class="form">
+                    <label for="display_name">Display Name:</label>
+                    <input id="display_name" name="display_name" type="text" placeholder="Business" py-input="display_name_input_handler()">
+
+                    <label for="business_name">Business Name:</label>
+                    <input id="business_name" name="business_name" type="text" placeholder="Business" py-input="business_name_input_handler()">
+
+                    <label for="owner_salutation">Owner salutation:</label>
+                    <select id="owner_salutation" py-change="owner_salutation_handler()">
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="Herr">Herr</option>
+                        <option value="Frau">Frau</option>
+                    </select>
+
+                    <label for="owner_first_name">First name:</label>
+                    <input id="owner_first_name" name="owner_first_name" type="text" placeholder="First name" py-input="owner_first_name_input_handler()">
+
+                    <label for="owner_last_name">Surname:</label>
+                    <input id="owner_last_name" name="owner_last_name" type="text" placeholder="Last name" py-input="owner_last_name_input_handler()">
+
+                    <label for="street">Business street:</label>
+                    <input id="street" name="street" type="text" placeholder="Gartenstraße" py-input="street_input_handler()">
+
+                    <label for="street_number">Street number:</label>
+                    <input id="street_number" name="street_number" type="number" placeholder="34" py-input="street_number_input_handler()">
+
+                    <label for="zip">Zipcode:</label>
+                    <input id="zip" name="zip" type="number" placeholder="82049" py-input="zip_input_handler()">
+                    
+                    <label for="city">City:</label>
+                    <input id="city" name="city" type="text" placeholder="Pullach" py-input="city_input_handler()">
+
+                    <label for="state">State:</label>
+                    <input id="state" name="state" type="text" placeholder="Bayern" py-input="state_input_handler()">
+
+                    <label for="country">Country:</label>
+                    <select id="country" py-change="country_handler()">
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="DE">Germany</option>
+                    </select>
+
+                    <label for="email">Email:</label>
+                    <input id="email" name="email" type="email" placeholder="email@example.com" py-input="email_input_handler()">
+
+                    <label for="phone">Phone:</label>
+                    <input id="phone" name="phone" type="tel" placeholder="17647631085" py-input="phone_input_handler()">
+
+                    <label for="mobile">Mobile:</label>
+                    <input id="mobile" name="mobile" type="tel" placeholder="17647631085" py-input="mobile_input_handler()">
+
+                    <label for="website">Website:</label>
+                    <input id="website" name="website" type="url" placeholder="www.horsemapp.com" py-input="website_input_handler()">
+
+                    <label for="instagram_name">Instagram:</label>
+                    <input id="instagram_name" name="instagram_name" type="text" placeholder="username" py-input="instagram_name_input_handler()">
+
+                    <label for="category">Category:</label>
+                    <select id="category" py-change="category_handler()">
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="3">Veterinarian</option>
+                        <option value="18">Equine clinic</option>
+                        <option value="22">Physiotherapist / Osteopath / Chiropractic</option>
+                        <option value="16">Osteopath</option>
+                        <option value="13">Farrier</option>
+                        <option value="24">Saddler</option>
+                        <option value="31">Breeder</option>
+                        <option value="5">Horse seller</option>
+                        <option value="2">Influencer</option>
+                        <option value="4">Riding club</option>
+                        <option value="17">Pension stable</option>
+                        <option value="10">Feed manufacturer</option>
+                        <option value="20">Equestrian store</option>
+                        <option value="15">Brand</option>
+                        <option value="1">Trainer</option>
+                        <option value="8">Rider</option>
+                        <option value="29">Event</option>
+                        <option value="25">Student Riding Group</option>
+                        <option value="28">Transport Company</option>
+                        <option value="30">Insurance</option>
+                        <option value="9">Photographer</option>
+                        <option value="19">Equine Marketing</option>
+                        <option value="184">School stable</option>
+                        <option value="185">Breeding stable</option>
+                        <option value="186">Training stable</option>
+                        <option value="187">Vacation stable</option>
+                        <option value="24">Sattler</option>
+                    </select>
+
+                    <div class="button-container">
+                        <button class="py-button" py-click="addRow()" id="add-row">Add Row</button>
+                        <button class="secondary-button" py-click="reset_handler()" id="reset">Reset</button>
+                    </div>
+                </form>
+
+                <p id="message"></p>
+            </div>
+        </div>
+        </div>
+
+            <div class="rectangle" id="csv-content">
+                <h2>Result</h2>
+                
+                <div id="sheet"></div>
+
+                <div class="button-container">
+                    <button class="py-button" py-click="updateTable()" id="update-table">Update Table</button>
+                </div>
+                <div id="download"></div>
+            </div>
+        
+
+        <div id="startup"></div>
+    <py-script src="./main.py"></py-script>
+</body>
+</html>
